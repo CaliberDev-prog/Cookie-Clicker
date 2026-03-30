@@ -9,7 +9,7 @@ A browser-based cookie clicker game built with vanilla HTML, CSS, and JavaScript
 - Reset button to start over
 
 ## Getting Started
-Just visit `[Play Cookie Clicker!](https://caliberdev-prog.github.io/Cookie-Clicker/)` in your browser.
+Just visit [Cookie Clicker!](https://caliberdev-prog.github.io/Cookie-Clicker/) in your browser.
 
 ## How to Play
 1. Click the 🍪 to earn cookies

@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>🍪 Cookie Clicker</h1>
+      
+      <div class="cookie-section">
+        <button class="cookie-btn" onclick="addPoint()">🍪</button>
+      </div>
+
+      <div class="stats">
+        <p id="score">Cookies: 0</p>
+        <p id="cpc">Cookies per click: 1</p>
+      </div>
+
+      <div class="upgrades">
+        <h2>Upgrades</h2>
+
+        <!-- UPGRADE TEMPLATE:
+        <button class="upgrade-btn" onclick="addUpgradeX()">
+          EMOJI Upgrade Name
+          <span>Cost: X cookies</span>
+        </button>
+        -->
+
+        <button class="upgrade-btn" onclick="addUpgrade1()">
+          ⚡ Double Click (1+)
+          <span>Cost: 10 cookies</span>
+        </button>
+
+        <button class="upgrade-btn" onclick="addUpgrade2()">
+          🔥 Hot Oven (5+)
+          <span>Cost: 100 cookies</span>
+        </button>
+
+        <button class="upgrade-btn" onclick="addUpgrade3()">
+          ✨ Magic Dough (20+)
+          <span>Cost: 500 cookies</span>
+        </button>
+
+        <button class="upgrade-btn" onclick="addUpgrade4()">
+          🤖 Robot Baker (100+)
+          <span>Cost: 2,000 cookies</span>
+        </button>
+
+        <button class="upgrade-btn" onclick="addUpgrade5()">
+          🌟 Cookie God (500+)
+          <span>Cost: 10,000 cookies</span>
+        </button>
+
+      </div>
+
+      <button class="reset-btn" onclick="reset()">🔄 Reset</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

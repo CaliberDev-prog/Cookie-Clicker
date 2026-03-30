@@ -28,4 +28,4 @@ A browser-based cookie clicker game built with vanilla HTML, CSS, and JavaScript
 - JavaScript
 
 ## Getting Started
-Just visit `[index.html](https://caliberdev-prog.github.io/Cookie-Clicker/)` in your browser or run with Live Server in VS Code.
+Just visit `https://caliberdev-prog.github.io/Cookie-Clicker/` in your browser or run with Live Server in VS Code.

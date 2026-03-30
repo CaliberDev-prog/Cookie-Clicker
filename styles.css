@@ -67,13 +67,6 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 2px;
 }
-
-/* ================================
-   UPGRADE BUTTONS
-   To add a new upgrade button, just
-   give it class="upgrade-btn" in HTML
-   and it will automatically look right!
-================================ */
 .upgrade-btn {
   background: #c46e0f;
   color: white;

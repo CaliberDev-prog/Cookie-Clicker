@@ -1,52 +1,167 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <div class="game-container">
-      <h1>🍪 Cookie Clicker</h1>
-      
-      <div class="cookie-section">
-        <button class="cookie-btn" onclick="addPoint()">🍪</button>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🍪 Cookie Clicker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-      <div class="stats">
-        <p id="score">Cookies: 0</p>
-        <p id="cpc">Cookies per click: 1</p>
-      </div>
+  <div class="grain"></div>
+  <div class="amb-wrap">
+    <div class="amb a1"></div>
+    <div class="amb a2"></div>
+    <div class="amb a3"></div>
+    <div class="amb a4"></div>
+  </div>
 
-      <div class="upgrades">
-        <h2>Upgrades</h2>
-
-        <button class="upgrade-btn" onclick="addUpgrade1()">
-          ⚡ Double Click (1+)
-          <span>Cost: 10 cookies</span>
-        </button>
-
-        <button class="upgrade-btn" onclick="addUpgrade2()">
-          🔥 Hot Oven (5+)
-          <span>Cost: 100 cookies</span>
-        </button>
-
-        <button class="upgrade-btn" onclick="addUpgrade3()">
-          ✨ Magic Dough (20+)
-          <span>Cost: 500 cookies</span>
-        </button>
-
-        <button class="upgrade-btn" onclick="addUpgrade4()">
-          🤖 Robot Baker (100+)
-          <span>Cost: 2,000 cookies</span>
-        </button>
-
-        <button class="upgrade-btn" onclick="addUpgrade5()">
-          🌟 Cookie God (500+)
-          <span>Cost: 10,000 cookies</span>
-        </button>
-
-      </div>
-
-      <button class="reset-btn" onclick="reset()">🔄 Reset</button>
+  <!-- DEV LOG MODAL -->
+  <div id="devlog-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-cookie">🍪</div>
+      <div class="modal-badge" id="modal-version-badge">Dev Log</div>
+      <div class="modal-body" id="modal-body"></div>
+      <button class="modal-close-btn" onclick="closeDevlog()">Start Baking →</button>
     </div>
-    <script src="script.js"></script>
-  </body>
+  </div>
+
+  <!-- ACHIEVEMENT TOAST -->
+  <div id="achievement-toast" class="toast hidden">
+    <span class="toast-ico">🏆</span>
+    <div class="toast-content">
+      <div class="toast-eyebrow">Achievement Unlocked</div>
+      <div id="toast-name" class="toast-name"></div>
+    </div>
+    <div class="toast-bar"></div>
+  </div>
+
+  <!-- APP -->
+  <div class="shell">
+
+    <!-- LEFT PANEL -->
+    <aside class="left-panel">
+
+      <div class="logo">🍪 <span>Cookie Clicker</span></div>
+
+      <div class="cookie-stage">
+        <div class="c-orbit o1"></div>
+        <div class="c-orbit o2"></div>
+        <div class="c-halo"></div>
+        <button class="cookie-btn" id="cookie-btn" onclick="handleClick(event)">🍪</button>
+      </div>
+
+      <div class="score-block">
+        <div class="score-num" id="score">0</div>
+        <div class="score-sub">cookies</div>
+      </div>
+
+      <div class="rate-row">
+        <div class="rate-cell">
+          <span class="rv" id="cpc">1</span>
+          <span class="rk">/ click</span>
+        </div>
+        <div class="rate-dot"></div>
+        <div class="rate-cell">
+          <span class="rv" id="cps">0</span>
+          <span class="rk">/ sec</span>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-cell"><span class="sv" id="stat-lifetime">0</span><span class="sk">all‑time</span></div>
+        <div class="stat-cell"><span class="sv" id="stat-buildings">0</span><span class="sk">buildings</span></div>
+        <div class="stat-cell"><span class="sv" id="stat-prestige">0</span><span class="sk">prestiges</span></div>
+      </div>
+
+      <!-- Buy quantity -->
+      <div class="qty-bar">
+        <span class="qty-label">Buy</span>
+        <div class="qty-btns">
+          <button class="qty-btn active" onclick="setBuyQty(1,this)">1×</button>
+          <button class="qty-btn"        onclick="setBuyQty(10,this)">10×</button>
+          <button class="qty-btn"        onclick="setBuyQty(100,this)">100×</button>
+          <button class="qty-btn max"    onclick="setBuyQty('max',this)">MAX</button>
+        </div>
+      </div>
+
+      <!-- Prestige -->
+      <div id="prestige-zone" class="prestige-zone hidden">
+        <div class="pz-glow"></div>
+        <div class="pz-inner">
+          <span class="pz-star">✨</span>
+          <div>
+            <div class="pz-title">Prestige Available</div>
+            <div class="pz-sub">Gain permanent <strong id="prestige-mult-display">1.05×</strong> bonus</div>
+          </div>
+        </div>
+        <button class="pz-btn" onclick="doPrestige()">Prestige Now</button>
+      </div>
+      <div id="active-pres" class="active-pres hidden"></div>
+
+      <button class="reset-link" onclick="hardReset()">↺ Hard Reset</button>
+    </aside>
+
+    <!-- RIGHT PANEL -->
+    <main class="right-panel">
+      <nav class="tab-nav">
+        <button class="tab active" onclick="showTab('upgrades',this)"><span>⚡</span> Upgrades</button>
+        <button class="tab"        onclick="showTab('buildings',this)"><span>🏗</span> Buildings</button>
+        <button class="tab"        onclick="showTab('achievements',this)"><span>🏆</span> Achievements</button>
+        <button class="tab"        onclick="showTab('updates',this)"><span>📋</span> Updates</button>
+      </nav>
+
+      <!-- UPGRADES TAB -->
+      <div id="tab-upgrades" class="pane active">
+        <div class="pane-inner">
+          <div class="pane-hd">
+            <h2 class="pane-title">Click Upgrades</h2>
+            <p class="pane-sub">One-time boosts that multiply your clicking power</p>
+          </div>
+          <div id="upgrades-grid" class="upg-grid"></div>
+        </div>
+      </div>
+
+      <!-- BUILDINGS TAB -->
+      <div id="tab-buildings" class="pane">
+        <div class="pane-inner">
+          <div class="pane-hd">
+            <h2 class="pane-title">Buildings</h2>
+            <p class="pane-sub">Passive income — each costs +15% more per owned</p>
+          </div>
+          <div id="buildings-list" class="bld-list"></div>
+        </div>
+      </div>
+
+      <!-- ACHIEVEMENTS TAB -->
+      <div id="tab-achievements" class="pane">
+        <div class="pane-inner">
+          <div class="pane-hd">
+            <h2 class="pane-title">Achievements</h2>
+            <p class="pane-sub" id="ach-progress">0 / 0 unlocked</p>
+          </div>
+          <div id="achievements-grid" class="ach-grid"></div>
+        </div>
+      </div>
+
+      <!-- UPDATES TAB -->
+      <div id="tab-updates" class="pane">
+        <div class="pane-inner">
+          <div class="pane-hd">
+            <h2 class="pane-title">Patch Notes</h2>
+            <p class="pane-sub">Official updates from the developer</p>
+          </div>
+          <div id="patch-feed" class="patch-feed"></div>
+          <div id="patch-empty" class="patch-empty">No updates posted yet.</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
